@@ -296,6 +296,7 @@
     <Compile Include="Suppliers\Dtos\CreateSupplierInput.cs" />
     <Compile Include="Suppliers\Dtos\SupplierListDto.cs" />
     <Compile Include="Suppliers\Dtos\GetSupplierListInput.cs" />
+    <Compile Include="Suppliers\ISupplierAppService.cs" />
     <Compile Include="Suppliers\SupplierAppService.cs" />
     <Compile Include="Tenants\Dashboard\Dto\GetMemberActivityOutput.cs" />
     <Compile Include="Tenants\Dashboard\ITenantDashboardAppService.cs" />

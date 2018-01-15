@@ -9,10 +9,18 @@ using System.Threading.Tasks;
 
 namespace MyCompanyName.AbpZeroTemplate.Suppliers
 {
-    public class SupplierManage
+    public class SupplierManage : ISupplierManage
     {
         private readonly IRepository<Supplier, int> _supplierRepository;
-      
+
+        public SupplierManage(IRepository<Supplier, int> supplierRepository)
+        {
+            _supplierRepository = supplierRepository;
+        }
+
+
+
+
         public async Task<Supplier> GetAsync(int id)
         {
             var @event = await _supplierRepository.FirstOrDefaultAsync(id);
@@ -36,16 +44,5 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
         }
 
 
-        public async Task<IReadOnlyList<Supplier>> GetRegisteredUsersAsync(Supplier @supplier)
-        {
-            return await _supplierRepository
-                .GetAll()
-                .Where(registration => registration.Id == @supplier.Id)
-                .ToListAsync();
-        }
-
-        public async Task UpdateAsync(Supplier @supplier) {
-
-        }
     }
 }

@@ -14,16 +14,25 @@ using MyCompanyName.AbpZeroTemplate.Suppliers.Dtos;
 
 namespace MyCompanyName.AbpZeroTemplate.Suppliers
 {
-    public class SupplierAppService
+    public class SupplierAppService : AbpZeroTemplateAppServiceBase, ISupplierAppService
     {
         private readonly IRepository<Supplier, int> _supplierRepository;
-        private readonly SupplierManage _eventManager;
+        private readonly ISupplierManage _eventManager;
+
+
+        public SupplierAppService(
+         ISupplierManage eventManager,
+         IRepository<Supplier, int> supplierRepository)
+        {
+            _eventManager = eventManager;
+            _supplierRepository = supplierRepository;
+        }
 
         public async Task<ListResultDto<SupplierListDto>> GetList(GetSupplierListInput input)
         {
             var events = await _supplierRepository
                 .GetAll()
-                .WhereIf(!input.IncludeCanceledSuppliers,e=>!e.IsCancelled)
+                .WhereIf(!input.IncludeCanceledSuppliers, e => !e.IsCancelled)
                 .OrderByDescending(e => e.Date)
                 .Take(64)
                 .ToListAsync();
@@ -34,7 +43,7 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
 
         public async Task Create(CreateSupplierInput input)
         {
-            var @event = Supplier.Create(input.Address,input.Phone,input.Type);
+            var @event = Supplier.Create(input.Address, input.Phone, input.Type);
             await _eventManager.CreateAsync(@event);
         }
 
@@ -44,32 +53,5 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
             _eventManager.Cancel(@supplier);
         }
 
-        public async Task<EventRegisterOutput> Register(EntityDto<int> input)
-        {
-            var registration = await RegisterAndSaveAsync(
-                await _eventManager.GetAsync(input.Id),
-                await GetCurrentUserAsync()
-                );
-
-            return new EventRegisterOutput
-            {
-                RegistrationId = registration.Id
-            };
-        }
-
-        public async Task CancelRegistration(EntityDto<Guid> input)
-        {
-            await _eventManager.CancelRegistrationAsync(
-                await _eventManager.GetAsync(input.Id),
-                await GetCurrentUserAsync()
-                );
-        }
-
-        private async Task<EventRegistration> RegisterAndSaveAsync(Event @event, User user)
-        {
-            var registration = await _eventManager.RegisterAsync(@event, user);
-            await CurrentUnitOfWork.SaveChangesAsync();
-            return registration;
-        }
     }
 }

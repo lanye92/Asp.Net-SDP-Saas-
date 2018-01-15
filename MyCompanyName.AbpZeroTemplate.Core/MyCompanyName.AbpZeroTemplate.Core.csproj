@@ -223,6 +223,7 @@
     <Compile Include="Storage\DbBinaryObjectManager.cs" />
     <Compile Include="Storage\IBinaryObjectManager.cs" />
     <Compile Include="Storage\BinaryObject.cs" />
+    <Compile Include="Suppliers\ISupplierManage.cs" />
     <Compile Include="Suppliers\Supplier.cs" />
     <Compile Include="Suppliers\SupplierManage.cs" />
     <Compile Include="Timing\ITimeZoneService.cs" />
