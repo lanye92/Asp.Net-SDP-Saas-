@@ -1,8 +1,8 @@
 ﻿(function () {
 
     appModule.controller('basecontent.views.suppliermanage.index', [
-        '$scope', '$uibModal', '$stateParams', 'uiGridConstants', 'abp.services.app.user',
-        function ($scope, $uibModal, $stateParams, uiGridConstants, userService) {
+        '$scope', '$uibModal', '$stateParams', 'uiGridConstants', 'abp.services.app.user','abp.services.app.supplier',
+        function ($scope, $uibModal, $stateParams, uiGridConstants, userService,supplierService) {
             var vm = this;
 
             $scope.$on('$viewContentLoaded', function () {
@@ -156,6 +156,15 @@
                     });
             };
 
+            vm.getSupplier = function () {
+                vm.loading - true;
+                supplierService.getList({'IncludeCanceledSuppliers':true}).then(function (result) {
+                    console.log(result);
+                }).finally(function () {
+                    vm.loading = false;
+                });
+            }
+
             function addRoleNamesField(users) {
                 for (var i = 0; i < users.length; i++) {
                     var user = users[i];
@@ -262,5 +271,6 @@
             }
 
             vm.getUsers();
+            vm.getSupplier();
         }]);
 })();

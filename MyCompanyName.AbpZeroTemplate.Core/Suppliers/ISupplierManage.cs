@@ -9,7 +9,7 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
 {
     public interface ISupplierManage : IDomainService
     {
-        Task<Supplier> GetAsync(int id);
+        Task<Supplier> GetAsync(long id);
 
         Task CreateAsync(Supplier @event);
 

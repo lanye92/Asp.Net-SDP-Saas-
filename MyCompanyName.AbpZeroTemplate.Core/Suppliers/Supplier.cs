@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Abp;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using Abp.Timing;
@@ -11,7 +10,7 @@ using Abp.UI;
 namespace MyCompanyName.AbpZeroTemplate.Suppliers
 {
     [Table("AppSupplier")]
-    public class Supplier : FullAuditedEntity<int>, IHasCreationTime, IMayHaveTenant
+    public class Supplier : FullAuditedEntity<long>, IHasCreationTime,IMustHaveTenant
     {
         public string Address { get; set; }
         public string Phone { get; set; }
@@ -19,6 +18,8 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
         public virtual DateTime Date { get; protected set; }
 
         public virtual bool IsCancelled { get; protected set; }
+
+        public virtual int TenantId { get; set; }
 
         public static Supplier Create(string address,string phone,string type)
         {
@@ -30,8 +31,6 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
                 Date = DateTime.Now,
                 IsCancelled=false
             };
-
-            @supplier.SetDate(date);
             return @supplier;
         }
 

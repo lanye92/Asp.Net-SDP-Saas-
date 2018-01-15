@@ -11,9 +11,9 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
 {
     public class SupplierManage : ISupplierManage
     {
-        private readonly IRepository<Supplier, int> _supplierRepository;
+        private readonly IRepository<Supplier, long> _supplierRepository;
 
-        public SupplierManage(IRepository<Supplier, int> supplierRepository)
+        public SupplierManage(IRepository<Supplier, long> supplierRepository)
         {
             _supplierRepository = supplierRepository;
         }
@@ -21,7 +21,7 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
 
 
 
-        public async Task<Supplier> GetAsync(int id)
+        public async Task<Supplier> GetAsync(long id)
         {
             var @event = await _supplierRepository.FirstOrDefaultAsync(id);
             if (@event == null)

@@ -7,6 +7,7 @@ using MyCompanyName.AbpZeroTemplate.Chat;
 using MyCompanyName.AbpZeroTemplate.Friendships;
 using MyCompanyName.AbpZeroTemplate.MultiTenancy;
 using MyCompanyName.AbpZeroTemplate.Storage;
+using MyCompanyName.AbpZeroTemplate.Suppliers;
 
 namespace MyCompanyName.AbpZeroTemplate.EntityFramework
 {
@@ -27,6 +28,8 @@ namespace MyCompanyName.AbpZeroTemplate.EntityFramework
         public virtual IDbSet<Friendship> Friendships { get; set; }
 
         public virtual IDbSet<ChatMessage> ChatMessages { get; set; }
+
+        public virtual IDbSet<Supplier> Suppliers { get; set; }
 
         public AbpZeroTemplateDbContext()
             : base("Default")

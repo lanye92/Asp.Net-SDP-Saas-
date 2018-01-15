@@ -14,19 +14,21 @@ using MyCompanyName.AbpZeroTemplate.Suppliers.Dtos;
 
 namespace MyCompanyName.AbpZeroTemplate.Suppliers
 {
+    [AbpAuthorize]
     public class SupplierAppService : AbpZeroTemplateAppServiceBase, ISupplierAppService
     {
-        private readonly IRepository<Supplier, int> _supplierRepository;
+        private readonly IRepository<Supplier, long> _supplierRepository;
         private readonly ISupplierManage _eventManager;
 
 
         public SupplierAppService(
          ISupplierManage eventManager,
-         IRepository<Supplier, int> supplierRepository)
+         IRepository<Supplier, long> supplierRepository)
         {
             _eventManager = eventManager;
             _supplierRepository = supplierRepository;
         }
+
 
         public async Task<ListResultDto<SupplierListDto>> GetList(GetSupplierListInput input)
         {
@@ -36,7 +38,6 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
                 .OrderByDescending(e => e.Date)
                 .Take(64)
                 .ToListAsync();
-
             return new ListResultDto<SupplierListDto>(events.MapTo<List<SupplierListDto>>());
         }
 

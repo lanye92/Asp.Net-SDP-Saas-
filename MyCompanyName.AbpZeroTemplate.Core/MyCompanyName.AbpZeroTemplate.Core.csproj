@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="Abp, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Abp.2.3.0\lib\net46\Abp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Abp.AutoMapper, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Abp.AutoMapper.2.3.0\lib\net46\Abp.AutoMapper.dll</HintPath>
@@ -225,6 +226,7 @@
     <Compile Include="Storage\BinaryObject.cs" />
     <Compile Include="Suppliers\ISupplierManage.cs" />
     <Compile Include="Suppliers\Supplier.cs" />
+    <Compile Include="Suppliers\Supplier1.cs" />
     <Compile Include="Suppliers\SupplierManage.cs" />
     <Compile Include="Timing\ITimeZoneService.cs" />
     <Compile Include="Timing\TimeZoneService.cs" />
