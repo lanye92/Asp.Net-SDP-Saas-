@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-sm-8">
                     <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                        <input class="form-control" type="text" name="Name" ng-class="{'edited':vm.supplier.userName}" ng-model="vm.supplier.userName"  >
+                        <input class="form-control" type="text" name="Name" ng-class="{'edited':vm.supplier.userName}" ng-model="vm.supplier.userName">
                         <label>@L("Name")</label>
                     </div>
                     <div class="form-group form-md-line-input form-md-floating-label no-hint">
@@ -29,7 +29,7 @@
                 <label>@L("Phone")</label>
             </div>
             <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                <input type="text" name="Type" class="form-control" ng-class="{'edited':vm.supplier.type}" ng-model="vm.supplier.type" required>
+                <select ng-model="vm.supplier.type" class="form-control" ng-options="type.name as type.name for  type in vm.types"></select>
                 <label>@L("Type")</label>
             </div>
         </div>
