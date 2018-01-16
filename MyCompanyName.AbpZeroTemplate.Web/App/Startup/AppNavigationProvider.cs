@@ -103,14 +103,14 @@ namespace MyCompanyName.AbpZeroTemplate.Web.App.Startup
                     PageNames.App.Tenant.BaseContent,
                     L("BaseContent"),
                     url: "basecontent.suppliermanage",
-                    icon: "icon-home"
-                    //requiredPermissionName: AppPermissions.Pages_Tenant_Dashboard
+                    icon: "icon-home",
+                    requiredPermissionName: AppPermissions.Pages_Tenants_Supplier
                     ).AddItem(new MenuItemDefinition(
                       PageNames.App.Tenant.SupplierManage,
                         L("SupplierManage"),
                         url: "basecontent.suppliermanage",
-                        icon: "icon-settings"
-                             //requiredPermissionName: AppPermissions.Pages_Administration_Host_Settings
+                        icon: "icon-settings",
+                        requiredPermissionName: AppPermissions.Pages_Tenants_Supplier
                         )
                     )
                 );

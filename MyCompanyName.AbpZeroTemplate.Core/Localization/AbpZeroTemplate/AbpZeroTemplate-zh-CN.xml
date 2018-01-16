@@ -282,7 +282,15 @@
     <text name="ThisLanguageAlreadyExists" value="这种语言已经存在!" />
     <text name="SupplierManage" value="供应商管理" />
     <text name="BaseContent" value="基本资料" />
-    
+    <text name="Supplier" value="供应商" />
+    <text name="SupplierHeaderInfo" value="管理供应商" />
+    <text name="CreateNewSupplier" value="新建供应商!" />
+    <text name="Address" value="地址" />
+    <text name="Phone" value="联系方式" />
+    <text name="Type" value="类型" />
+    <text name="CreateSupplier" value="新建供应商" />
+    <text name="EditSupplier" value="编辑供应商" />
+    <text name="DeleteSupplier" value="删除供应商" />
 
   </texts>
 </localizationDictionary>

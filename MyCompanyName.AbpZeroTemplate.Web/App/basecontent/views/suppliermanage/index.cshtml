@@ -5,7 +5,7 @@
             <div class="page-head">
                 <div class="page-title">
                     <h1>
-                        <span>@L("Users")</span> <small>@L("UsersHeaderInfo")</small>
+                        <span>@L("Supplier")</span> <small>@L("SupplierHeaderInfo")</small>
                     </h1>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                                         <div class="input-group">
                                             <input ng-model="vm.filterText" auto-focus class="form-control" placeholder="@L("SearchWithThreeDot")" type="text">
                                             <span class="input-group-btn">
-                                                <button ng-click="vm.getUsers()" class="btn default" type="submit"><i class="icon-magnifier"></i></button>
+                                                <button ng-click="vm.getSupplier()" class="btn default" type="submit"><i class="icon-magnifier"></i></button>
                                             </span>
                                         </div>
                                     </div>
@@ -58,9 +58,6 @@
                         </div>
                     </div>
                 </form>
-            </div>
-            <div busy-if="vm.loading">
-                <div ui-grid="vm.userGridOptions" ui-grid-pagination ui-grid-resize-columns dir=@(CultureHelper.IsRtl ? "rtl" : "")></div>
             </div>
             <div busy-if="vm.loading">
                 <div ui-grid="vm.supplierGridOptions" ui-grid-pagination ui-grid-resize-columns dir=@(CultureHelper.IsRtl ? "rtl" : "")></div>

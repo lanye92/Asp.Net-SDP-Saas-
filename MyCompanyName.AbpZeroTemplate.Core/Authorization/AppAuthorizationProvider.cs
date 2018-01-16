@@ -43,6 +43,7 @@ namespace MyCompanyName.AbpZeroTemplate.Authorization
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Delete, L("DeletingUser"));
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_ChangePermissions, L("ChangingPermissions"));
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Impersonation, L("LoginForUsers"));
+           
 
             var languages = administration.CreateChildPermission(AppPermissions.Pages_Administration_Languages, L("Languages"));
             languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_Create, L("CreatingNewLanguage"));
@@ -75,6 +76,13 @@ namespace MyCompanyName.AbpZeroTemplate.Authorization
             tenants.CreateChildPermission(AppPermissions.Pages_Tenants_ChangeFeatures, L("ChangingFeatures"), multiTenancySides: MultiTenancySides.Host);
             tenants.CreateChildPermission(AppPermissions.Pages_Tenants_Delete, L("DeletingTenant"), multiTenancySides: MultiTenancySides.Host);
             tenants.CreateChildPermission(AppPermissions.Pages_Tenants_Impersonation, L("LoginForTenants"), multiTenancySides: MultiTenancySides.Host);
+
+            var supplier=pages.CreateChildPermission(AppPermissions.Pages_Tenants_Supplier, L("Supplier"));
+            supplier.CreateChildPermission(AppPermissions.Pages_Tenants_Supplier_Create, L("CreateSupplier"));
+            supplier.CreateChildPermission(AppPermissions.Pages_Tenants_Supplier_Edit, L("EditSupplier"));
+            supplier.CreateChildPermission(AppPermissions.Pages_Tenants_Supplier_Delete, L("DeleteSupplier"));
+
+
 
             administration.CreateChildPermission(AppPermissions.Pages_Administration_Host_Settings, L("Settings"), multiTenancySides: MultiTenancySides.Host);
 

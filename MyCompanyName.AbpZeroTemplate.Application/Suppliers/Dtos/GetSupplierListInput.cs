@@ -25,7 +25,6 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers.Dtos
             }
         }
 
-        public bool IncludeCanceledSuppliers { get; set; }
 
     }
 }

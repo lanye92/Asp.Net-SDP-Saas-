@@ -37,8 +37,14 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
         public async Task<PagedResultDto<SupplierListDto>> GetList(GetSupplierListInput input)
         {
             var query = _supplierRepository.GetAll()
-                .WhereIf(!input.IncludeCanceledSuppliers, e => !e.IsDeleted);
-
+             .WhereIf(
+                    !input.Filter.IsNullOrWhiteSpace(),
+                    u =>
+                        u.UserName.Contains(input.Filter) ||
+                        u.Address.Contains(input.Filter) ||
+                        u.Phone.Contains(input.Filter) ||
+                        u.Type.Contains(input.Filter)
+                );
             var userCount = await query.CountAsync();
             try
             {
@@ -63,21 +69,15 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
 
         }
 
-
-        public async Task CreateSupplierAsync(CreateSupplierInput input)
+        [AbpAuthorize(AppPermissions.Pages_Tenants_Supplier_Create)]
+        public virtual async Task CreateSupplierAsync(CreateSupplierInput input)
         {
-            var @event = Supplier.Create(input.UserName,input.Address, input.Phone, input.Type);
+            var @event = Supplier.Create(input.UserName, input.Address, input.Phone, input.Type);
             await _supplierManager.CreateAsync(@event);
         }
 
-        public async Task Cancel(EntityDto<int> input)
-        {
-            var @supplier = await _supplierManager.GetAsync(input.Id);
-            _supplierManager.Cancel(@supplier);
-        }
 
-
-        [AbpAuthorize(AppPermissions.Pages_Administration_Users_Create, AppPermissions.Pages_Administration_Users_Edit)]
+        [AbpAuthorize(AppPermissions.Pages_Tenants_Supplier_Create, AppPermissions.Pages_Tenants_Supplier_Edit)]
         public async Task<GetSupplierForEditOutput> GetSupplierForEdit(NullableIdDto<long> input)
         {
             var output = new GetSupplierForEditOutput();
@@ -92,10 +92,11 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
         }
 
 
-        [AbpAuthorize(AppPermissions.Pages_Administration_Users_Edit)]
+        [AbpAuthorize(AppPermissions.Pages_Tenants_Supplier_Edit)]
         public virtual async Task UpdateSupplierAsync(CreateSupplierInput input)
         {
-            try {
+            try
+            {
                 Debug.Assert(input.Id != null, "input.User.Id should be set.");
 
                 var supplier = await _supplierManager.GetAsync(input.Id.Value);
@@ -103,10 +104,12 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
                 //Update user properties
                 input.MapTo(supplier); //Passwords is not mapped (see mapping configuration)
                 await _supplierRepository.UpdateAsync(supplier);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 var e = ex;
             }
-      
+
 
         }
 
@@ -131,8 +134,8 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
         }
 
 
-        [AbpAuthorize(AppPermissions.Pages_Administration_Users_Delete)]
-        public async Task DeleteUser(EntityDto<long> input)
+        [AbpAuthorize(AppPermissions.Pages_Tenants_Supplier_Delete)]
+        public async Task DeleteSupplier(EntityDto<long> input)
         {
             var supplier = await _supplierManager.GetAsync(input.Id);
             await _supplierRepository.DeleteAsync(supplier);

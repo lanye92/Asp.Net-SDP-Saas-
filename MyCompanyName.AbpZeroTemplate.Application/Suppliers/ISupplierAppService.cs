@@ -15,14 +15,13 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
 
 
 
-        Task Cancel(EntityDto<int> input);
-
-
-
         Task<GetSupplierForEditOutput> GetSupplierForEdit(NullableIdDto<long> input);
 
 
         Task CreateOrUpdateSupplier(CreateSupplierInput input);
+
+
+        Task DeleteSupplier(EntityDto<long> input);
 
     }
 }

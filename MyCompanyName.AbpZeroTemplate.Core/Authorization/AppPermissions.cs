@@ -60,5 +60,12 @@
 
         public const string Pages_Administration_Host_Maintenance = "Pages.Administration.Host.Maintenance";
         public const string Pages_Administration_Host_Settings = "Pages.Administration.Host.Settings";
+
+
+
+        public const string Pages_Tenants_Supplier = "Pages.Tenant.Supplier";
+        public const string Pages_Tenants_Supplier_Create = "Pages.Tenant.Supplier.Create";
+        public const string Pages_Tenants_Supplier_Edit = "Pages.Tenant.Supplier.Edit";
+        public const string Pages_Tenants_Supplier_Delete = "Pages.Tenant.Supplier.Delete";
     }
 }
