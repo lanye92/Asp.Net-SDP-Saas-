@@ -127,65 +127,14 @@
                 });
             }
 
-            function addRoleNamesField(users) {
-                for (var i = 0; i < users.length; i++) {
-                    var user = users[i];
-                    user.getRoleNames = function () {
-                        var roleNames = '';
-                        for (var j = 0; j < this.roles.length; j++) {
-                            if (roleNames.length) {
-                                roleNames = roleNames + ', ';
-                            }
-                            roleNames = roleNames + this.roles[j].roleName;
-                        };
-
-                        return roleNames;
-                    }
-                }
-
-                return users;
-            }
-
-            vm.editUser = function (user) {
-                openCreateOrEditUserModal(user.id);
-            };
 
             vm.editSupplier = function (supplier) {
                 openCreateOrEditSupplierModal(supplier.id);
             }
 
-            vm.createUser = function () {
-                openCreateOrEditUserModal(null);
-            };
-
             vm.createSupplier = function () {
                 openCreateOrEditSupplierModal(null);
             };
-
-            vm.editPermissions = function (user) {
-                $uibModal.open({
-                    templateUrl: '~/App/common/views/users/permissionsModal.cshtml',
-                    controller: 'common.views.users.permissionsModal as vm',
-                    backdrop: 'static',
-                    resolve: {
-                        user: function () {
-                            return user;
-                        }
-                    }
-                });
-            };
-
-            vm.impersonate = function (user) {
-                app.utils.removeCookie(abp.security.antiForgery.tokenCookieName);
-                abp.ajax({
-                    url: abp.appPath + 'Account/Impersonate',
-                    data: JSON.stringify({
-                        tenantId: abp.session.tenantId,
-                        userId: user.id
-                    })
-                });
-            };
-
 
             vm.deleteSupplier = function (supplier) {
 
@@ -203,17 +152,6 @@
                     }
                 );
             };
-
-            vm.unlockUser = function (user) {
-                userService.unlockUser({
-                    id: user.id
-                })
-                    .then(function () {
-                        abp.notify.success(app.localize('UnlockedTheUser', user.userName));
-                    });
-            };
-
-
 
             function openCreateOrEditSupplierModal(supplierid) {
                 var modalInstance = $uibModal.open({
