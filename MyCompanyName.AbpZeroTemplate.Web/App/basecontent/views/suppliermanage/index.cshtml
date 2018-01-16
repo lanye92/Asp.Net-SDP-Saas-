@@ -11,8 +11,7 @@
             </div>
         </div>
         <div class="col-xs-6 text-right">
-            <button class="btn btn-default" ng-click="vm.exportToExcel()"><i class="fa fa-file-excel-o"></i> @L("ExportToExcel")</button>
-            <button ng-if="vm.permissions.create" class="btn btn-primary blue" ng-click="vm.createUser()"><i class="fa fa-plus"></i> @L("CreateNewUser")</button>
+            <button ng-if="vm.permissions.create" class="btn btn-primary blue" ng-click="vm.createSupplier()"><i class="fa fa-plus"></i> @L("CreateNewSupplier")</button>
         </div>
     </div>
     <div class="portlet light margin-bottom-0">
@@ -62,6 +61,9 @@
             </div>
             <div busy-if="vm.loading">
                 <div ui-grid="vm.userGridOptions" ui-grid-pagination ui-grid-resize-columns dir=@(CultureHelper.IsRtl ? "rtl" : "")></div>
+            </div>
+            <div busy-if="vm.loading">
+                <div ui-grid="vm.supplierGridOptions" ui-grid-pagination ui-grid-resize-columns dir=@(CultureHelper.IsRtl ? "rtl" : "")></div>
             </div>
         </div>
     </div>

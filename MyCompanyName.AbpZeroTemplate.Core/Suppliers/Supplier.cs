@@ -10,7 +10,7 @@ using Abp.UI;
 namespace MyCompanyName.AbpZeroTemplate.Suppliers
 {
     [Table("AppSupplier")]
-    public class Supplier : FullAuditedEntity<long>, IHasCreationTime,IMustHaveTenant
+    public class Supplier : FullAuditedEntity<long>, IHasCreationTime, IMustHaveTenant
     {
         public string Address { get; set; }
         public string Phone { get; set; }
@@ -21,7 +21,7 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
 
         public virtual int TenantId { get; set; }
 
-        public static Supplier Create(string address,string phone,string type)
+        public static Supplier Create(string address, string phone, string type)
         {
             var @supplier = new Supplier
             {
@@ -29,7 +29,7 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
                 Phone = phone,
                 Type = type,
                 Date = DateTime.Now,
-                IsCancelled=false
+                IsCancelled = false
             };
             return @supplier;
         }

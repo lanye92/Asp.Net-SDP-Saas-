@@ -294,6 +294,7 @@
     <Compile Include="Sessions\ISessionAppService.cs" />
     <Compile Include="Sessions\SessionAppService.cs" />
     <Compile Include="Suppliers\Dtos\CreateSupplierInput.cs" />
+    <Compile Include="Suppliers\Dtos\GetSupplierForEditOutput.cs" />
     <Compile Include="Suppliers\Dtos\SupplierListDto.cs" />
     <Compile Include="Suppliers\Dtos\GetSupplierListInput.cs" />
     <Compile Include="Suppliers\ISupplierAppService.cs" />

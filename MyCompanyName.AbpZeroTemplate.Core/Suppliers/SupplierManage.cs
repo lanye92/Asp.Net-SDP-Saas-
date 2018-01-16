@@ -33,6 +33,7 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
         }
 
 
+
         public async Task CreateAsync(Supplier @event)
         {
             await _supplierRepository.InsertAsync(@event);

@@ -11,12 +11,20 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
 {
     public interface ISupplierAppService : IApplicationService
     {
-        Task<ListResultDto<SupplierListDto>> GetList(GetSupplierListInput input);
+        Task<PagedResultDto<SupplierListDto>> GetList(GetSupplierListInput input);
 
 
-        Task Create(CreateSupplierInput input);
 
         Task Cancel(EntityDto<int> input);
+
+
+        Task CreateSupplierAsync(CreateSupplierInput input);
+
+        Task<GetSupplierForEditOutput> GetSupplierForEdit(NullableIdDto<long> input);
+
+        Task<Supplier> UpdateSupplierAsync(CreateSupplierInput input);
+
+        Task CreateOrUpdateSupplier(CreateSupplierInput input);
 
     }
 }

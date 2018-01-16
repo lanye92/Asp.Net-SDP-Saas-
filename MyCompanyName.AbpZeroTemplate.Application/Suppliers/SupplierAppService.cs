@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
@@ -11,6 +12,9 @@ using Abp.AutoMapper;
 using Abp.Linq.Extensions;
 using Abp.UI;
 using MyCompanyName.AbpZeroTemplate.Suppliers.Dtos;
+using Abp.Extensions;
+using MyCompanyName.AbpZeroTemplate.Authorization;
+using System.Diagnostics;
 
 namespace MyCompanyName.AbpZeroTemplate.Suppliers
 {
@@ -18,41 +22,100 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
     public class SupplierAppService : AbpZeroTemplateAppServiceBase, ISupplierAppService
     {
         private readonly IRepository<Supplier, long> _supplierRepository;
-        private readonly ISupplierManage _eventManager;
+        private readonly ISupplierManage _supplierManager;
 
 
         public SupplierAppService(
-         ISupplierManage eventManager,
+         ISupplierManage supplierManager,
          IRepository<Supplier, long> supplierRepository)
         {
-            _eventManager = eventManager;
+            _supplierManager = supplierManager;
             _supplierRepository = supplierRepository;
         }
 
 
-        public async Task<ListResultDto<SupplierListDto>> GetList(GetSupplierListInput input)
+        public async Task<PagedResultDto<SupplierListDto>> GetList(GetSupplierListInput input)
         {
-            var events = await _supplierRepository
-                .GetAll()
-                .WhereIf(!input.IncludeCanceledSuppliers, e => !e.IsCancelled)
-                .OrderByDescending(e => e.Date)
-                .Take(64)
-                .ToListAsync();
-            return new ListResultDto<SupplierListDto>(events.MapTo<List<SupplierListDto>>());
+            input.Sorting = "Date";
+            var query = _supplierRepository.GetAll()
+                .WhereIf(!input.IncludeCanceledSuppliers, e => !e.IsCancelled);
+
+            var userCount = await query.CountAsync();
+            try
+            {
+                var users = await query
+               .OrderBy(input.Sorting)
+               .PageBy(input)
+               .ToListAsync();
+
+                var userListDtos = users.MapTo<List<SupplierListDto>>();
+
+                return new PagedResultDto<SupplierListDto>(
+                    userCount,
+                    userListDtos
+                    );
+            }
+            catch (Exception e)
+            {
+                var err = e;
+            }
+            return null;
+
+
         }
 
 
-        public async Task Create(CreateSupplierInput input)
+        public async Task CreateSupplierAsync(CreateSupplierInput input)
         {
             var @event = Supplier.Create(input.Address, input.Phone, input.Type);
-            await _eventManager.CreateAsync(@event);
+            await _supplierManager.CreateAsync(@event);
         }
 
         public async Task Cancel(EntityDto<int> input)
         {
-            var @supplier = await _eventManager.GetAsync(input.Id);
-            _eventManager.Cancel(@supplier);
+            var @supplier = await _supplierManager.GetAsync(input.Id);
+            _supplierManager.Cancel(@supplier);
         }
 
+
+        [AbpAuthorize(AppPermissions.Pages_Administration_Users_Create, AppPermissions.Pages_Administration_Users_Edit)]
+        public async Task<GetSupplierForEditOutput> GetSupplierForEdit(NullableIdDto<long> input)
+        {
+            var output = new GetSupplierForEditOutput();
+
+            if (input.Id.HasValue)
+            {
+                var @supplier = await _supplierManager.GetAsync(input.Id.Value);
+                output = @supplier.MapTo<GetSupplierForEditOutput>();
+            }
+            return output;
+        }
+
+
+        [AbpAuthorize(AppPermissions.Pages_Administration_Users_Edit)]
+        public async Task<Supplier> UpdateSupplierAsync(CreateSupplierInput input)
+        {
+            Debug.Assert(input.Id != null, "input.User.Id should be set.");
+
+            var supplier = await _supplierManager.GetAsync(input.Id.Value);
+
+            //Update user properties
+            input.MapTo(supplier); //Passwords is not mapped (see mapping configuration)
+            var result = await _supplierRepository.UpdateAsync(supplier);
+            return result;
+        }
+
+
+        public async Task CreateOrUpdateSupplier(CreateSupplierInput input)
+        {
+            if (input.Id.HasValue)
+            {
+                await UpdateSupplierAsync(input);
+            }
+            else
+            {
+                await CreateSupplierAsync(input);
+            }
+        }
     }
 }

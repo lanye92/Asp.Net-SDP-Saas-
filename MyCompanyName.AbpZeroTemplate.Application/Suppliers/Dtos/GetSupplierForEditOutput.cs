@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace MyCompanyName.AbpZeroTemplate.Suppliers.Dtos
 {
-    public class CreateSupplierInput
+    public class GetSupplierForEditOutput
     {
-        public long? Id { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Type { get; set; }

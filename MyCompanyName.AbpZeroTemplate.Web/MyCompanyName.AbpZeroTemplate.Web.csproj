@@ -15,7 +15,7 @@
     <RootNamespace>MyCompanyName.AbpZeroTemplate.Web</RootNamespace>
     <AssemblyName>MyCompanyName.AbpZeroTemplate.Web</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -422,6 +422,13 @@
     <Content Include="Abp\Framework\styles\abp.mixings.css" />
     <Content Include="Abp\Framework\styles\abp.mixings.min.css" />
     <Content Include="Abp\Framework\styles\utils\ie10fix.css" />
+    <Content Include="App\basecontent\views\suppliermanage\createOrEditModal.css">
+      <DependentUpon>createOrEditModal.less</DependentUpon>
+    </Content>
+    <Content Include="App\basecontent\views\suppliermanage\createOrEditModal.js" />
+    <Content Include="App\basecontent\views\suppliermanage\createOrEditModal.min.css">
+      <DependentUpon>createOrEditModal.css</DependentUpon>
+    </Content>
     <Content Include="App\basecontent\views\suppliermanage\index.css">
       <DependentUpon>index.less</DependentUpon>
     </Content>
@@ -2241,6 +2248,8 @@
     <Content Include="fonts\open-sans\open-sans-v14-greek_cyrillic-ext_cyrillic_latin_latin-ext_greek-ext_vietnamese-regular.woff2" />
     <Content Include="App\basecontent\views\suppliermanage\index.cshtml" />
     <Content Include="App\basecontent\views\suppliermanage\index.less" />
+    <Content Include="App\basecontent\views\suppliermanage\createOrEditModal.cshtml" />
+    <Content Include="App\basecontent\views\suppliermanage\createOrEditModal.less" />
     <None Include="Properties\PublishProfiles\aspnetzero - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\i18n\angular-locale_af-na.js" />
@@ -3361,7 +3370,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>6234</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:6240/</IISUrl>
+          <IISUrl>http://www.mycompanysaas.com</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
