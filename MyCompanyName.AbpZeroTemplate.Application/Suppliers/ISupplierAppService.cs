@@ -18,11 +18,9 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
         Task Cancel(EntityDto<int> input);
 
 
-        Task CreateSupplierAsync(CreateSupplierInput input);
 
         Task<GetSupplierForEditOutput> GetSupplierForEdit(NullableIdDto<long> input);
 
-        Task<Supplier> UpdateSupplierAsync(CreateSupplierInput input);
 
         Task CreateOrUpdateSupplier(CreateSupplierInput input);
 

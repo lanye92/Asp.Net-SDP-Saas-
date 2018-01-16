@@ -36,9 +36,8 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
 
         public async Task<PagedResultDto<SupplierListDto>> GetList(GetSupplierListInput input)
         {
-            input.Sorting = "Date";
             var query = _supplierRepository.GetAll()
-                .WhereIf(!input.IncludeCanceledSuppliers, e => !e.IsCancelled);
+                .WhereIf(!input.IncludeCanceledSuppliers, e => !e.IsDeleted);
 
             var userCount = await query.CountAsync();
             try
@@ -67,7 +66,7 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
 
         public async Task CreateSupplierAsync(CreateSupplierInput input)
         {
-            var @event = Supplier.Create(input.Address, input.Phone, input.Type);
+            var @event = Supplier.Create(input.UserName,input.Address, input.Phone, input.Type);
             await _supplierManager.CreateAsync(@event);
         }
 
@@ -87,35 +86,56 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
             {
                 var @supplier = await _supplierManager.GetAsync(input.Id.Value);
                 output = @supplier.MapTo<GetSupplierForEditOutput>();
+
             }
             return output;
         }
 
 
         [AbpAuthorize(AppPermissions.Pages_Administration_Users_Edit)]
-        public async Task<Supplier> UpdateSupplierAsync(CreateSupplierInput input)
+        public virtual async Task UpdateSupplierAsync(CreateSupplierInput input)
         {
-            Debug.Assert(input.Id != null, "input.User.Id should be set.");
+            try {
+                Debug.Assert(input.Id != null, "input.User.Id should be set.");
 
-            var supplier = await _supplierManager.GetAsync(input.Id.Value);
+                var supplier = await _supplierManager.GetAsync(input.Id.Value);
 
-            //Update user properties
-            input.MapTo(supplier); //Passwords is not mapped (see mapping configuration)
-            var result = await _supplierRepository.UpdateAsync(supplier);
-            return result;
+                //Update user properties
+                input.MapTo(supplier); //Passwords is not mapped (see mapping configuration)
+                await _supplierRepository.UpdateAsync(supplier);
+            } catch (Exception ex) {
+                var e = ex;
+            }
+      
+
         }
 
 
         public async Task CreateOrUpdateSupplier(CreateSupplierInput input)
         {
-            if (input.Id.HasValue)
+            try
             {
-                await UpdateSupplierAsync(input);
+                if (input.Id.HasValue)
+                {
+                    await UpdateSupplierAsync(input);
+                }
+                else
+                {
+                    await CreateSupplierAsync(input);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await CreateSupplierAsync(input);
+                var e = ex;
             }
+        }
+
+
+        [AbpAuthorize(AppPermissions.Pages_Administration_Users_Delete)]
+        public async Task DeleteUser(EntityDto<long> input)
+        {
+            var supplier = await _supplierManager.GetAsync(input.Id);
+            await _supplierRepository.DeleteAsync(supplier);
         }
     }
 }

@@ -40,6 +40,16 @@
             });
         };
 
+        vm.newsave = function () {
+            vm.saving = true;
+            supplierService.createOrUpdateSupplier(vm.supplier).then(function () {
+                abp.notify.info(app.localize('SavedSuccessfully'));
+                $uibModalInstance.close();
+            }).finally(function () {
+                vm.saving = false;
+            });
+        };
+
         vm.cancel = function () {
             $uibModalInstance.dismiss();
         };
@@ -68,7 +78,8 @@
                 vm.supplier = result.data;
             });
         }
-        init();
+        newinit();
+        
     }
     ]);
 })();

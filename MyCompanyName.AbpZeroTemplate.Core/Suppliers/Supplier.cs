@@ -6,47 +6,45 @@ using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using Abp.Timing;
 using Abp.UI;
+using Abp.AutoMapper;
 
 namespace MyCompanyName.AbpZeroTemplate.Suppliers
 {
     [Table("AppSupplier")]
     public class Supplier : FullAuditedEntity<long>, IHasCreationTime, IMustHaveTenant
     {
+        public string UserName { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Type { get; set; }
-        public virtual DateTime Date { get; protected set; }
-
-        public virtual bool IsCancelled { get; protected set; }
 
         public virtual int TenantId { get; set; }
 
-        public static Supplier Create(string address, string phone, string type)
+        public static Supplier Create(string username,string address, string phone, string type)
         {
             var @supplier = new Supplier
             {
+                UserName=username,
                 Address = address,
                 Phone = phone,
                 Type = type,
-                Date = DateTime.Now,
-                IsCancelled = false
             };
             return @supplier;
         }
 
         public bool IsInPast()
         {
-            return Date < Clock.Now;
+            return CreationTime < Clock.Now;
         }
 
         public bool IsAllowedCancellationTimeEnded()
         {
-            return Date.Subtract(Clock.Now).TotalHours <= 2.0; //2 hours can be defined as Event property and determined per event
+            return CreationTime.Subtract(Clock.Now).TotalHours <= 2.0; //2 hours can be defined as Event property and determined per event
         }
 
         public void ChangeDate(DateTime date)
         {
-            if (date == Date)
+            if (date == CreationTime)
             {
                 return;
             }
@@ -58,7 +56,7 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
         internal void Cancel()
         {
             AssertNotInPast();
-            IsCancelled = true;
+            IsDeleted = true;
         }
 
         private void SetDate(DateTime date)
@@ -75,7 +73,7 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
                 throw new UserFriendlyException("Should set an event's date 3 hours before at least!");
             }
 
-            Date = date;
+            CreationTime = date;
         }
 
         private void AssertNotInPast()
@@ -88,7 +86,7 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers
 
         private void AssertNotCancelled()
         {
-            if (IsCancelled)
+            if (IsDeleted)
             {
                 throw new UserFriendlyException("This event is canceled!");
             }

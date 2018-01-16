@@ -21,7 +21,7 @@ namespace MyCompanyName.AbpZeroTemplate.Suppliers.Dtos
         {
             if (string.IsNullOrEmpty(Sorting))
             {
-                Sorting = "Name,Surname";
+                Sorting = "UserName,CreationTime";
             }
         }
 

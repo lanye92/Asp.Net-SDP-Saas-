@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Abp.AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace MyCompanyName.AbpZeroTemplate.Suppliers.Dtos
 {
+    [AutoMapTo(typeof(Supplier))]
     public class CreateSupplierInput
     {
         public long? Id { get; set; }
+        public string UserName { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Type { get; set; }
-        public virtual DateTime Date { get; protected set; }
-
-        public virtual bool IsCancelled { get; protected set; }
+        public bool IsCancelled { get; set; }
     }
 }
